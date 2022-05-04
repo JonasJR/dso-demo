@@ -18,7 +18,7 @@ pipeline {
         }
       }
     }
-    stage('Test') {
+    stage('Static analysis') {
       parallel {
         stage('Unit Tests') {
           steps {
@@ -26,6 +26,21 @@ pipeline {
               sh 'mvn test'
             }
           }
+        }
+        stage('SCA') {
+          steps {
+            container('maven') {
+              catchError(buildResult: 'SUCCESS', stageResult:'FAILURE') {
+                sh 'mvn org.owasp:dependency-check-maven:check'
+              }
+            } 
+          }
+          post {
+            always {
+              archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report.html', fingerprint: true, onlyIfSuccessful: true
+             // dependencyCheckPublisher pattern: 'report.xml'
+            }
+          } 
         }
       }
     }
@@ -38,7 +53,7 @@ pipeline {
             }
           }
         }
-        stage('Docker BnP') {
+        stage('OCI Image BnP') {
           steps {
             container('kaniko') {
               sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/jonasjr92/dsodemo'
