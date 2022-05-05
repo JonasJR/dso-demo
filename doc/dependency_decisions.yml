@@ -41,20 +41,20 @@
     :why: Educational
     :versions:
     - 1.2.6
-    :when: 2022-05-05
+    :when: 2022-05-05 10:27:29.688403000 Z
 - - :approve
   - logback-classic
   - :who: Jonas
     :why: Educational
     :versions:
     - 1.2.6
-    :when: 2022-05-05
+    :when: 2022-05-05 10:27:29.688403000 Z
 - - :permit
   - New BSD
   - :who: Jonas
     :why: Educational
     :versions: []
-    :when: 2022-05-05
+    :when: 2022-05-05 10:27:29.688403000 Z
 - - :approve
   - jakarta.xml.bind-api
   - :who: 
