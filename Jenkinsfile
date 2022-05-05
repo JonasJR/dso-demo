@@ -98,24 +98,25 @@ pipeline {
           }
         }
       }
-      stage('Image Analysis') {
-        parallel {
-          stage('Image Linting') {
-            steps {
-              container('docker-tools') {
-                sh 'dockle docker.io/xxxxxx/dsodemo'
-              }
-            } 
-          }
-          stage('Image Scan') {
-            steps {
-              container('docker-tools') {
-                sh 'trivy image --exit-code 1 xxxxxx/dso-demo'
-              }
-            } 
-          }
-        } 
-      }
+    }
+
+    stage('Image Analysis') {
+      parallel {
+        stage('Image Linting') {
+          steps {
+            container('docker-tools') {
+              sh 'dockle docker.io/xxxxxx/dsodemo'
+            }
+          } 
+        }
+        stage('Image Scan') {
+          steps {
+            container('docker-tools') {
+              sh 'trivy image --exit-code 1 xxxxxx/dso-demo'
+            }
+          } 
+        }
+      } 
     }
 
     stage('Deploy to Dev') {
